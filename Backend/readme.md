@@ -166,3 +166,92 @@ The request body must be in JSON format and include the following fields:
   "error": "Internal Server Error"
 }
 ```
+
+---
+
+## Endpoint: `/users/profile`
+
+### Description
+This endpoint is used to retrieve the authenticated user's profile information.
+
+### Method
+`GET`
+
+### Headers
+- **Authorization**: Bearer `<JWT_TOKEN>`
+
+### Responses
+
+#### Success (200 OK)
+- **Description**: User profile retrieved successfully.
+- **Response Body**:
+```json
+{
+  "_id": "user_id_here",
+  "fullname": {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  "email": "john.doe@example.com"
+}
+```
+
+#### Authentication Error (401 Unauthorized)
+- **Description**: User is not authenticated.
+- **Response Body**:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Server Error (500 Internal Server Error)
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
+---
+
+## Endpoint: `/users/logout`
+
+### Description
+This endpoint is used to log out the authenticated user by invalidating their token.
+
+### Method
+`GET`
+
+### Headers
+- **Authorization**: Bearer `<JWT_TOKEN>`
+
+### Responses
+
+#### Success (200 OK)
+- **Description**: User logged out successfully.
+- **Response Body**:
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+#### Authentication Error (401 Unauthorized)
+- **Description**: User is not authenticated.
+- **Response Body**:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Server Error (500 Internal Server Error)
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
