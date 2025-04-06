@@ -5,7 +5,7 @@
 ### Description
 This endpoint is used to register a new user in the system. It validates the input data, hashes the password, and creates a new user record in the database. Upon successful registration, it returns a JSON Web Token (JWT) and the user details.
 
-### Method
+### HTTP Method
 `POST`
 
 ### Request Body
