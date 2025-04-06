@@ -25,6 +25,12 @@ router.post("/register", [
         .withMessage("Vehicle Type must be either car, bike or truck."),
 ], captainController.registerCaptain);
 
+router.post("/login", [
+    body("email").isEmail().withMessage("Invalid Email"),
+    body("password")
+        .isLength({ min: 6 })
+        .withMessage("Password must be atleast 6 character long."),
+], captainController.loginCaptain);
 
 
 
