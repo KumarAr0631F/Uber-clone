@@ -255,3 +255,102 @@ This endpoint is used to log out the authenticated user by invalidating their to
   "error": "Internal Server Error"
 }
 ```
+
+---
+
+## Endpoint: `/captains/register`
+
+### Description
+This endpoint is used to register a new captain in the system. It validates the input data, hashes the password, and creates a new captain record in the database. Upon successful registration, it returns the captain details.
+
+### Method
+`POST`
+
+### Request Body
+The request body must be in JSON format and include the following fields:
+
+| Field                  | Type   | Required | Description                                      |
+|------------------------|--------|----------|--------------------------------------------------|
+| `fullname`             | Object | Yes      | Contains the captain's first and last name.      |
+| `fullname.firstname`   | String | Yes      | First name of the captain (min 3 characters).    |
+| `fullname.lastname`    | String | No       | Last name of the captain (min 3 characters).     |
+| `email`                | String | Yes      | Email address of the captain (must be valid).    |
+| `password`             | String | Yes      | Password for the captain (min 6 characters).     |
+| `vehicle.color`        | String | Yes      | Color of the vehicle (min 3 characters).         |
+| `vehicle.plate`        | String | Yes      | License plate of the vehicle (min 3 characters). |
+| `vehicle.capacity`     | Number | Yes      | Capacity of the vehicle (minimum 1).             |
+| `vehicle.vehicleType`  | String | Yes      | Type of the vehicle (car, bike, or truck).       |
+
+### Example Request
+```json
+{
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Smith"
+  },
+  "email": "jane.smith@example.com",
+  "password": "securepassword",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+### Responses
+
+#### Success (201 Created)
+- **Description**: Captain successfully registered.
+- **Response Body**:
+```json
+{
+  "_id": "captain_id_here",
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Smith"
+  },
+  "email": "jane.smith@example.com",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+#### Validation Error (400 Bad Request)
+- **Description**: Input validation failed.
+- **Response Body**:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "First name must be atleast 3 character long.",
+      "param": "fullname.firstname",
+      "location": "body"
+    },
+    {
+      "msg": "Color must be atleast 3 character long.",
+      "param": "vehicle.color",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Server Error (500 Internal Server Error)
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
