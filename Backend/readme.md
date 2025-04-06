@@ -1,16 +1,85 @@
-# /users/register
+# API Documentation
 
-**Method:** `POST`  
-**Description:** Creates a new user account.
+## Endpoint: `/users/register`
 
-## Request Body
+### Description
+This endpoint is used to register a new user in the system. It validates the input data, hashes the password, and creates a new user record in the database. Upon successful registration, it returns a JSON Web Token (JWT) and the user details.
 
+### Method
+`POST`
+
+### Request Body
+The request body must be in JSON format and include the following fields:
+
+| Field             | Type   | Required | Description                                   |
+|--------------------|--------|----------|-----------------------------------------------|
+| `fullname`         | Object | Yes      | Contains the user's first and last name.      |
+| `fullname.firstname` | String | Yes      | First name of the user (min 3 characters).    |
+| `fullname.lastname`  | String | No       | Last name of the user (min 3 characters).     |
+| `email`            | String | Yes      | Email address of the user (must be valid).    |
+| `password`         | String | Yes      | Password for the user (min 6 characters).     |
+
+### Example Request
 ```json
 {
   "fullname": {
-    "firstname": "string (min length: 3)",
-    "lastname": "string (optional, min length: 3)"
+    "firstname": "John",
+    "lastname": "Doe"
   },
-  "email": "valid email (min length: 5)",
-  "password": "string (min length: 6)"
+  "email": "john.doe@example.com",
+  "password": "securepassword"
 }
+```
+
+### Responses
+
+#### Success (201 Created)
+- **Description**: User successfully registered.
+- **Response Body**:
+```json
+{
+  "token": "jwt_token_here",
+  "user": {
+    "_id": "user_id_here",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com"
+  }
+}
+```
+
+#### Validation Error (400 Bad Request)
+- **Description**: Input validation failed.
+- **Response Body**:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "First name must be atleast 3 character long.",
+      "param": "fullname.firstname",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be atleast 6 character long.",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Server Error (500 Internal Server Error)
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
