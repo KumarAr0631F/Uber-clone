@@ -354,3 +354,187 @@ The request body must be in JSON format and include the following fields:
   "error": "Internal Server Error"
 }
 ```
+
+---
+
+## Endpoint: `/captains/login`
+
+### Description
+This endpoint is used to authenticate a captain. It validates the input data, checks the captain's credentials, and returns a JSON Web Token (JWT) upon successful authentication.
+
+### Method
+`POST`
+
+### Request Body
+The request body must be in JSON format and include the following fields:
+
+| Field     | Type   | Required | Description                                   |
+|-----------|--------|----------|-----------------------------------------------|
+| `email`   | String | Yes      | Email address of the captain (must be valid). |
+| `password`| String | Yes      | Password for the captain (min 6 characters).  |
+
+### Example Request
+```json
+{
+  "email": "jane.smith@example.com",
+  "password": "securepassword"
+}
+```
+
+### Responses
+
+#### Success (200 OK)
+- **Description**: Captain successfully authenticated.
+- **Response Body**:
+```json
+{
+  "token": "jwt_token_here",
+  "captain": {
+    "_id": "captain_id_here",
+    "fullname": {
+      "firstname": "Jane",
+      "lastname": "Smith"
+    },
+    "email": "jane.smith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+  }
+}
+```
+
+#### Validation Error (400 Bad Request)
+- **Description**: Input validation failed.
+- **Response Body**:
+```json
+{
+  "errors": [
+    {
+      "msg": "Invalid Email",
+      "param": "email",
+      "location": "body"
+    },
+    {
+      "msg": "Password must be atleast 6 character long.",
+      "param": "password",
+      "location": "body"
+    }
+  ]
+}
+```
+
+#### Authentication Error (401 Unauthorized)
+- **Description**: Invalid email or password.
+- **Response Body**:
+```json
+{
+  "message": "Invalid Credentials"
+}
+```
+
+#### Server Error (500 Internal Server Error)
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
+---
+
+## Endpoint: `/captains/logout`
+
+### Description
+This endpoint is used to log out the authenticated captain by invalidating their token.
+
+### Method
+`GET`
+
+### Headers
+- **Authorization**: Bearer `<JWT_TOKEN>`
+
+### Responses
+
+#### Success (200 OK)
+- **Description**: Captain logged out successfully.
+- **Response Body**:
+```json
+{
+  "message": "Logged out successfully"
+}
+```
+
+#### Authentication Error (401 Unauthorized)
+- **Description**: Captain is not authenticated.
+- **Response Body**:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Server Error (500 Internal Server Error)
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
+
+---
+
+## Endpoint: `/captains/profile`
+
+### Description
+This endpoint is used to retrieve the authenticated captain's profile information.
+
+### Method
+`GET`
+
+### Headers
+- **Authorization**: Bearer `<JWT_TOKEN>`
+
+### Responses
+
+#### Success (200 OK)
+- **Description**: Captain profile retrieved successfully.
+- **Response Body**:
+```json
+{
+  "_id": "captain_id_here",
+  "fullname": {
+    "firstname": "Jane",
+    "lastname": "Smith"
+  },
+  "email": "jane.smith@example.com",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+#### Authentication Error (401 Unauthorized)
+- **Description**: Captain is not authenticated.
+- **Response Body**:
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+#### Server Error (500 Internal Server Error)
+- **Description**: An unexpected error occurred on the server.
+- **Response Body**:
+```json
+{
+  "error": "Internal Server Error"
+}
+```
