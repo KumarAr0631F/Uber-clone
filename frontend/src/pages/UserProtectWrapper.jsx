@@ -2,6 +2,8 @@ import React, {useState, useContext, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { userDataContext} from "../context/UserContext";
+import Lottie from 'lottie-react';
+import Loading from '../Loading.json';
 
 const UserProtectWrapper = ({children}) => {
 
@@ -34,7 +36,9 @@ const UserProtectWrapper = ({children}) => {
     })
 
     if(isLoading) { 
-        return <div>Loading...</div>
+        return <div className='h-screen w-full flex items-center justify-center'>
+            <Lottie animationData={Loading}/>
+        </div>
     }
 
   return (

@@ -3,6 +3,8 @@ import { useEffect, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CaptainDataContext } from '../context/CaptainContext'
 import axios from 'axios'
+import Lottie from 'lottie-react'
+import Loading from '../Loading.json'
 
 const CaptainProtectWrapper = ({children}) => {
     const token = localStorage.getItem('token')
@@ -32,8 +34,10 @@ const CaptainProtectWrapper = ({children}) => {
         navigate('/captain-login')
     })
 
-    if(isLoading) {
-        return <div>Loading...</div>
+    if(isLoading) { 
+        return <div className='h-screen w-full flex items-center justify-center'>
+            <Lottie animationData={Loading}/>
+        </div>
     }
 
     return (
