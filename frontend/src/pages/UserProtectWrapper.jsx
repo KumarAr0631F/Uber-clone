@@ -1,6 +1,7 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { userDataContext} from "../context/UserContext";
 
 const UserProtectWrapper = ({children}) => {
 
@@ -8,7 +9,7 @@ const UserProtectWrapper = ({children}) => {
     const navigate = useNavigate()
 
     const [isLoading, setIsLoading] = useState(true)
-    const {user, setUser} = useContext(UserDataContext)
+    const {user, setUser} = useContext(userDataContext)
 
     useEffect(() => {
         if(!token) {
